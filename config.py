@@ -45,7 +45,7 @@ root_dataset_path = os.path.join(DIR_NAME, "dataset")
 root_indices_path = os.path.join(DIR_NAME, "indices")
 resultsPath = os.path.join(DIR_NAME, "results")
 
-dataset_path_dict = {"caltech256": os.path.join(root_dataset_path, "caltech256")}
+dataset_path_dict = {"caltech256": os.path.join(DIR_NAME, "caltech256")}
 idx_path_dict = {"caltech256": os.path.join(root_indices_path, "caltech256")}
 nr_class_dict = {"caltech256": {3: 258, 5: 258, 1: 257}}
 input_dim_dict = {3: [330, 300], 5: [256, 224], 1: [256, 224]}

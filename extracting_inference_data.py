@@ -18,22 +18,25 @@ def main(args):
 
 	n_classes = 257
 
+	DIR_NAME = os.path.dirname(__file__)
+
 	device = torch.device('cuda' if (torch.cuda.is_available() and args.cuda) else 'cpu')
 
 	#model_path = os.path.join(config.DIR_NAME, "models", args.model_name, "models", 
 	#	"ee_model_%s_branches_id_%s.pth"%(args.n_branches, model_id))
 
-	model_path = os.path.join(config.DIR_NAME, "new_models", "models", "ee_%s_%s_branches_id_%s.pth"%(args.model_name, args.n_branches, args.model_id) )	
+	model_path = os.path.join("models", "ee_mobilenet_1_branches_id_1.pth")	
 
+	dataset_path = os.path.join(DIR_NAME, "caltech256")
 
-	dataset_path = config.dataset_path_dict[args.dataset_name]
-
-	inf_data_path = os.path.join(config.DIR_NAME, "new_inference_data", "val_inference_data_%s_%s_branches_%s_final.csv"%(args.model_name, args.n_branches, args.model_id))
+	inf_data_path = os.path.join(DIR_NAME, "inference_data", "inference_data_mobilenet_1_branches_1.csv")
 
 
 	model_dict = torch.load(model_path, map_location=device)
 
 	val_idx, test_idx = model_dict["val"], model_dict["test"]
+
+	indices = test_idx if (args.test_indices) else val_idx
 
 	#Load Early-exit DNN model.	
 	ee_model = ee_nn.Early_Exit_DNN(args.model_name, n_classes, args.pretrained, args.n_branches, args.dim, device, args.exit_type, args.distribution)
@@ -42,7 +45,7 @@ def main(args):
 	ee_model.eval()
 
 	#Load Dataset 
-	test_loader = utils.load_caltech256_test_inference(args, dataset_path, val_idx)
+	test_loader = utils.load_caltech256_test_inference(args, dataset_path, indices)
 
 	df = extracting_ee_inference_data(test_loader, ee_model, args.n_branches, device)
 
@@ -95,6 +98,9 @@ if (__name__ == "__main__"):
 
 	parser.add_argument('--n_branches', type=int, default=config.n_branches, 
 		help='Number of side branches. Default: %s'%(config.n_branches))
+
+	parser.add_argument('--test_indices', type=bool, default=True, 
+		help='Use Test indices Default: True')
 
 	parser.add_argument('--input_dim', type=int, default=330, help='Input Dim. Default: %s'%config.input_dim)
 

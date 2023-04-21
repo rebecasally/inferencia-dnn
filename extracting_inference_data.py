@@ -39,7 +39,7 @@ def main(args):
 	#Load Dataset 
 	test_loader = utils.load_caltech256_test_inference(args, dataset_path, indices)
 
-	df = utils.extracting_ee_inference_data(test_loader, model, no_calib_temperature, args.n_branches, device, mode="no_calib")
+	df = utils.extracting_ee_inference_data(test_loader, ee_model, no_calib_temperature, args.n_branches, device, mode="no_calib")
 
 	df.to_csv(inf_data_path, mode='a', header=not os.path.exists(inf_data_path))
 

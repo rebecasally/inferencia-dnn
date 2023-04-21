@@ -58,7 +58,9 @@ if (__name__ == "__main__"):
 	#We here insert the argument model_name. 
 	#We evalue our novel calibration method Offloading-driven Temperature Scaling in four early-exit DNN:
 	#MobileNet, ResNet18, ResNet152, VGG16
-	
+	parser.add_argument('--model_name', type=str, choices=["mobilenet", "resnet18", "resnet152", "vgg16"], default="mobilenet",
+		help='DNN model name (default: mobilenet)')
+
 	#This argument defines the ratio to split the Traning Set, Val Set, and Test Set.
 	parser.add_argument('--split_ratio', type=float, default=config.split_ratio, help='Split Ratio')
 

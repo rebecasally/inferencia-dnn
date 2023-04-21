@@ -173,7 +173,7 @@ def extracting_ee_inference_data(test_loader, model, temp_list, n_branches, devi
 	model.eval()
 	with torch.no_grad():
 		#for i, (data, target) in enumerate(test_loader, 1):
-		for i, (data, target) in tqdm(test_loader, 1):
+		for (data, target) in tqdm(test_loader):
 
 
 			# Convert data and target into the current device.

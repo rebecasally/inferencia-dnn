@@ -82,6 +82,9 @@ if (__name__ == "__main__"):
 	parser.add_argument('--distribution', type=str, default=config.distribution, 
 		help='Distribution. Default: %s'%(config.distribution))
 
+	parser.add_argument('--n_branches', type=int, default=1, 
+		help='Number of side branches. Default: %s'%(config.n_branches))
+
 	parser.add_argument('--test_indices', type=bool, default=True, 
 		help='Use Test indices Default: True')
 

@@ -5,14 +5,6 @@ import numpy as np
 import pandas as pd
 
 
-def extracting_ee_inference_data(test_loader, model, n_branches, device):
-
-	no_calib_temperature = np.ones(n_branches)
-
-	df = utils.extracting_ee_inference_data(test_loader, model, no_calib_temperature, args.n_branches, device, mode="no_calib")
-
-	return df
-
 
 def main(args):
 
@@ -47,7 +39,7 @@ def main(args):
 	#Load Dataset 
 	test_loader = utils.load_caltech256_test_inference(args, dataset_path, indices)
 
-	df = extracting_ee_inference_data(test_loader, ee_model, args.n_branches, device)
+	df = utils.extracting_ee_inference_data(test_loader, model, no_calib_temperature, args.n_branches, device, mode="no_calib")
 
 	df.to_csv(inf_data_path, mode='a', header=not os.path.exists(inf_data_path))
 
@@ -66,9 +58,7 @@ if (__name__ == "__main__"):
 	#We here insert the argument model_name. 
 	#We evalue our novel calibration method Offloading-driven Temperature Scaling in four early-exit DNN:
 	#MobileNet, ResNet18, ResNet152, VGG16
-	parser.add_argument('--model_name', type=str, choices=["mobilenet", "resnet18", "resnet152", "vgg16"], 
-		help='DNN model name (default: mobilenet)')
-
+	
 	#This argument defines the ratio to split the Traning Set, Val Set, and Test Set.
 	parser.add_argument('--split_ratio', type=float, default=config.split_ratio, help='Split Ratio')
 
@@ -89,9 +79,6 @@ if (__name__ == "__main__"):
 
 	parser.add_argument('--distribution', type=str, default=config.distribution, 
 		help='Distribution. Default: %s'%(config.distribution))
-
-	parser.add_argument('--n_branches', type=int, default=config.n_branches, 
-		help='Number of side branches. Default: %s'%(config.n_branches))
 
 	parser.add_argument('--test_indices', type=bool, default=True, 
 		help='Use Test indices Default: True')

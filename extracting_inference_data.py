@@ -22,15 +22,15 @@ def main(args):
 
 	device = torch.device('cuda' if (torch.cuda.is_available() and args.cuda) else 'cpu')
 
-	#model_path = os.path.join(config.DIR_NAME, "models", args.model_name, "models", 
-	#	"ee_model_%s_branches_id_%s.pth"%(args.n_branches, model_id))
-
 	model_path = os.path.join("models", "ee_mobilenet_1_branches_id_1.pth")	
 
 	dataset_path = os.path.join(DIR_NAME, "caltech256")
 
-	inf_data_path = os.path.join(DIR_NAME, "inference_data", "inference_data_mobilenet_1_branches_1.csv")
+	result_path = os.path.join(DIR_NAME, "inference_data")
+	if (not os.path.exists(result_path)):
+		os.makedirs(result_path)
 
+	inf_data_path = os.path.join(result_path, "inference_data_mobilenet_1_branches_1.csv")
 
 	model_dict = torch.load(model_path, map_location=device)
 
@@ -71,12 +71,6 @@ if (__name__ == "__main__"):
 
 	#This argument defines the ratio to split the Traning Set, Val Set, and Test Set.
 	parser.add_argument('--split_ratio', type=float, default=config.split_ratio, help='Split Ratio')
-
-	#This argument defined the batch sizes. 
-	parser.add_argument('--batch_size_train', type=int, default=config.batch_size_train, 
-		help='Train Batch Size. Default: %s'%(config.batch_size_train))
-	parser.add_argument('--batch_size_test', type=int, default=config.batch_size_test, 
-		help='Test Batch Size. Default: %s'%(config.batch_size_test))
 
 	# This argument defines the seed for random operations.
 	parser.add_argument('--seed', type=int, default=config.seed, 

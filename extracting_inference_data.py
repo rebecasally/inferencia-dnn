@@ -18,6 +18,8 @@ def main(args):
 
 	dataset_path = os.path.join(DIR_NAME, "caltech256")
 
+	no_calib_temperature = np.ones(args.n_branches)
+
 	result_path = os.path.join(DIR_NAME, "inference_data")
 	if (not os.path.exists(result_path)):
 		os.makedirs(result_path)
